@@ -46,9 +46,9 @@ class HomeController extends BaseController {
 
 		*/
 
-
 		return View::make('playlists/view', [
 			'artist' => $artist->name,
+			'artistName' => $artist->name,
 			'tracklists' => $tracklists->albums
 		]);
 

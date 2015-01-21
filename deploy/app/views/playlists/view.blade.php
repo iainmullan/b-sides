@@ -2,16 +2,15 @@
 
 @section('content')
 
-	@include('elements.search', array('value' => $artist))
-
 <section id="playlist">
 
-	<header>
+	<div class="header">
 		<h2>{{ $artist }}</h2>
 		<a class="export" href="/playlists/export/">
 			<img src="/img/create-playlist-green.png" alt="Create Playlist" height="40px" />
 		</a>
-	</header>
+	</div>
+
 	<table class="playlist">
 
 		<thead>

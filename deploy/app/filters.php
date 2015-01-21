@@ -14,6 +14,7 @@
 App::before(function($request)
 {
 	//
+	View::share('artistName', false);
 });
 
 

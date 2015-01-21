@@ -10,6 +10,7 @@
 	<meta property="og:title" content="B-sides | by Iain Mullan" />
 
 	<meta property="og:url" content="http://bsides.iainmullan.com/" />
+	<meta property="og:description" content="Generate a Spotify playlist of just an artist's B-sides" />
 	<meta property="og:type" content="website" />
 
 	<link rel="stylesheet" href="/css/reset.css" type="text/css" />
@@ -35,6 +36,7 @@
 			margin: 10px 0 0 0;
 			font-weight: 400;
 			letter-spacing: 0.04em;
+			display: inline-block;
 		}
 
 		h1 a {
@@ -46,14 +48,18 @@
 			line-height: 40px;
 		}
 
-		#playlist header {
-			border-top: 1px solid #eee;
+		header {
+			border-bottom: 1px solid #eee;
 		}
 
-		#playlist header * {
+		#playlist .header {
+			padding: 20px 0;
+		}
+
+		#playlist .header * {
 			display: inline-block;
 		}
-		#playlist header .export {
+		#playlist .header .export {
 			float:right;
 		}
 
@@ -75,23 +81,32 @@
 			margin: 30px 0;
 		}
 
+		header #search {
+			float:right;
+			margin-top: 35px;
+		}
+
+		#home #search {
+			text-align: center;
+		}
+
 		#search input {
 			padding: 5px 10px;
-			height: 40px;
-			margin: 10px 0;
+			height: 20px;
+			display: inline-block;
+			vertical-align: top;
+			font-size: 16px;
 		}
 
 		#search input[type=text] {
-			font-size: 2em;
 			border: 1px solid #ccc;
-			width: 75%;
-			min-width: 300px;
-			max-width: 600px;
+			width: 300px;
+			color: #777;
 		}
 		#search input[type=submit] {
 			border: none;
-			font-size: 1em;
 			background: #eee;
+			height: 32px;
 		}
 
 		.twitter-follow-button {
@@ -103,7 +118,8 @@
 		table.playlist {
 			width: 100%;
 			font-weight: 300;
-
+			border-collapse: separate;
+			border-spacing: 2px;
 		}
 
 		table.playlist th,
@@ -127,6 +143,9 @@
 
 	<header>
 		<h1><a href="/">B-Sides</a></h1>
+		@if ($artistName)
+			@include('elements.search', array('value' => @$artistName))
+		@endif
 	</header>
 
 	<main>
