@@ -12,3 +12,11 @@
 */
 
 Route::get('/', 'HomeController@home');
+
+Route::get('/playlists/export/{id}', 'PlaylistsController@export');
+
+Route::get('/artist/{id}', 'PlaylistsController@view');
+
+Route::get('/auth/logout', 'AuthController@logout');
+Route::get('/auth/spotify', 'AuthController@spotify_login');
+Route::get('/auth/spotify/callback', 'AuthController@spotify_callback');

@@ -19,39 +19,7 @@ class HomeController extends BaseController {
 
 		$artist = $results->artists->items[0];
 
-		/*
-
-		GET https://api.spotify.com/v1/artists/{$artistId}/albums?album_type=single
-
-		*/
-		$singles = $api->getArtistAlbums($artist->id, array('album_type' => array('single')));
-
-		/*
-		get full tracklistings for each single
-		GET https://api.spotify.com/v1/albums?ids={ids}
-		*/
-		$ids = [];
-		foreach($singles->items as $s) {
-			$ids[] = $s->id;
-		}
-
-		$tracklists = $api->getAlbums($ids);
-
-		/*
-		TODO
-
-		Loop the albums, remove Track 1
-
-		Bonus:: Detect a AA-side!
-
-		*/
-
-		return View::make('playlists/view', [
-			'artist' => $artist->name,
-			'artistName' => $artist->name,
-			'tracklists' => $tracklists->albums
-		]);
-
+		return Redirect::to('/artist/'.$artist->id);
 	}
 
 }
