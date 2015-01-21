@@ -12,34 +12,55 @@
 	<meta property="og:url" content="http://bsides.iainmullan.com/" />
 	<meta property="og:type" content="website" />
 
+	<link rel="stylesheet" href="/css/reset.css" type="text/css" />
+
 	<style>
 		@import url(//fonts.googleapis.com/css?family=Lato:400,700,300,300italic);
+		@import url(//fonts.googleapis.com/css?family=Open+Sans:400,700,300,300italic);
 
 		body {
 			margin:0;
-			font-family:'Lato', sans-serif;
 			color: #444;
+			font-family: 'Open Sans';
 		}
 
 		a, a:visited {
 			color: inherit;
 		}
-
+		header {
+			font-family:'Lato', sans-serif;	
+		}
 		h1 {
-			text-align:center;
-			font-size: 32px;
-			margin: 16px 0 0 0;
-			font-weight: 700;
+			font-size: 60px;
+			margin: 10px 0 0 0;
+			font-weight: 400;
+			letter-spacing: 0.04em;
 		}
 
 		h1 a {
 			text-decoration:none;
 		}
 
+		h2 {
+			font-size: 32px;
+			line-height: 40px;
+		}
+
+		#playlist header {
+			border-top: 1px solid #eee;
+		}
+
+		#playlist header * {
+			display: inline-block;
+		}
+		#playlist header .export {
+			float:right;
+		}
+
 		header, main, footer {
 			max-width: 960px;
 			margin: 0 auto;
-			padding: 20px;
+			padding: 20px 0;
 		}
 
 		#search, footer {
@@ -141,7 +162,7 @@
 	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	  ga('create', 'UA-323014-41', 'auto');
+	  ga('create', 'UA-323014-42', 'auto');
 	  ga('send', 'pageview');
 	</script>
 </body>
