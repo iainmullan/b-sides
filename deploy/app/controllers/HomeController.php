@@ -6,7 +6,11 @@ class HomeController extends BaseController {
 
 		$api = new SpotifyWebAPI\SpotifyWebAPI();
 
-		$artistName = Input::get('artist', "Metallica");
+		$artistName = Input::get('artist', false);
+
+		if (!$artistName) {
+			return View::make('home');
+		}
 
 		/*
 		GET https://api.spotify.com/v1/search?type=artist&q={$artistName}
@@ -44,6 +48,7 @@ class HomeController extends BaseController {
 
 
 		return View::make('playlists/view', [
+			'artist' => $artistName,
 			'tracklists' => $tracklists->albums
 		]);
 
