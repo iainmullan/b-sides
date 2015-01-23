@@ -10,18 +10,50 @@ class PlaylistsController extends BaseController {
 		GET https://api.spotify.com/v1/artists/{$artistId}/albums?album_type=single
 
 		*/
-		$singles = $api->getArtistAlbums($artistId, array('album_type' => array('single')));
+
+		$next = true;
+		$singles = [];
+		$limit = 50;
+		$offset = 0;
+		while ($next !== null) {
+
+			$singlesPage = $api->getArtistAlbums($artistId, [
+				'market' => 'GB',
+				'album_type' => array('single'),
+				'limit' => $limit,
+				'offset' => $offset
+			]);
+
+			Log::debug('Total of '.$singlesPage->total);
+
+			$singles = array_merge($singles, $singlesPage->items);
+
+			$next = $singlesPage->next;
+			$offset += $limit;
+		}
 
 		/*
 		get full tracklistings for each single
 		GET https://api.spotify.com/v1/albums?ids={ids}
 		*/
-		$ids = [];
-		foreach($singles->items as $s) {
-			$ids[] = $s->id;
-		}
 
-		$tracklists = $api->getAlbums($ids);
+		// multi-album call accepts max 20
+		$chunks = array_chunk($singles, 20);
+
+		$tracklists = [];
+
+		foreach($chunks as $c) {
+
+			$ids = [];
+			foreach($c as $s) {
+				$ids[] = $s->id;
+				Log::debug($s->id.' = '.$s->name);
+			}
+
+			$response = $api->getAlbums($ids);
+
+			$tracklists = array_merge($tracklists, $response->albums);
+		}
 
 		/*
 		TODO
@@ -33,12 +65,15 @@ class PlaylistsController extends BaseController {
 		*/
 		$tracks = [];
 
-		foreach($tracklists->albums as $tl) {
+		$trackNames = [];
+
+		foreach($tracklists as $tl) {
 
 			foreach($tl->tracks->items as $i => $t) {
-				if ($t->track_number !== 1) {
+				if ($t->track_number !== 1 && in_array($t->name, $trackNames) === false) {
 					$t->release_name = $tl->name;
 					$tracks[] = $t;	
+					$trackNames[] = $t->name;
 				}
 			}
 
