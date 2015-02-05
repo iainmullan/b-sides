@@ -136,14 +136,14 @@ class PlaylistsController extends BaseController {
 
 	function export_tracks() {
 
-		$token = Session::get('user_token');
-
-		if (!$token) {
-			return Redirect::to('/auth/spotify');
-		}
-
 		$artistId = Input::get('artist_id');
 		$trackIds = Input::get('track_id');
+
+		$token = Session::get('user_token');
+		if (!$token) {
+			Session::put('export_artist_id', $artistId);
+			return Redirect::to('/auth/spotify');
+		}
 
 		$this->_create($artistId, $trackIds);
 

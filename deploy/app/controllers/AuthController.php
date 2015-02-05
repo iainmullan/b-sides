@@ -50,10 +50,8 @@ class AuthController extends BaseController {
 		Session::put('user', $me);
 
 		if ($artistId = Session::get('export_artist_id')) {
-			return Redirect::to('/playlists/export/'.$artistId);
+			return Redirect::to('/artist/'.$artistId);
 		}
-
-		print_r($me);
 
 	}
 
