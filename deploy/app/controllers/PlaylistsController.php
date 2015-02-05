@@ -1,7 +1,7 @@
 <?php
 class PlaylistsController extends BaseController {
 
-	function _tracks($artistId) {
+	function _tracks($artistId, $idsOnly = false) {
 
 		$api = new SpotifyWebAPI\SpotifyWebAPI();
 
@@ -70,13 +70,34 @@ class PlaylistsController extends BaseController {
 		foreach($tracklists as $tl) {
 
 			foreach($tl->tracks->items as $i => $t) {
-				if ($t->track_number !== 1 && in_array($t->name, $trackNames) === false) {
+
+				if (in_array($t->name, $trackNames) === false) {
+
+					if ($t->track_number == 1) {
+						$t->checked = false;
+					} else {
+						$t->checked = true;
+					}
+
 					$t->release_name = $tl->name;
-					$tracks[] = $t;	
+					$tracks[] = $t;
 					$trackNames[] = $t->name;
+
 				}
+
+
 			}
 
+		}
+
+		if ($idsOnly) {
+			$trackIds = [];
+
+			foreach ($tracks as $i => $t) {
+				$trackIds[] = $t->id;
+			}
+
+			return $trackIds;
 		}
 
 		return $tracks;
@@ -97,8 +118,8 @@ class PlaylistsController extends BaseController {
 
 	}
 
-	function export($artistId = false) {
-		
+	function export_artist($artistId = false) {
+
 		$token = Session::get('user_token');
 
 		if (!$token) {
@@ -106,31 +127,49 @@ class PlaylistsController extends BaseController {
 			return Redirect::to('/auth/spotify');
 		}
 
+		$trackIds = $this->_tracks($artistId, true);
+
+		$this->_create($artistId, $trackIds);
+
+		return Redirect::to('/artist/'.$artistId);
+	}
+
+	function export_tracks() {
+
+		$token = Session::get('user_token');
+
+		if (!$token) {
+			return Redirect::to('/auth/spotify');
+		}
+
+		$artistId = Input::get('artist_id');
+		$trackIds = Input::get('track_id');
+
+		$this->_create($artistId, $trackIds);
+
+		return Redirect::to('/artist/'.$artistId);
+	}
+
+	function _create($artistId, $trackIds) {
+
+		$token = Session::get('user_token');
+
 		$user = Session::get('user');
 
 		$api = new SpotifyWebAPI\SpotifyWebAPI();
 		$api->setAccessToken($token);
-		
+
 		$artist = $api->getArtist($artistId);
 
-		// do the playlist create
 		$playlistName = "B-sides: ".$artist->name;
 
-
+		// do the playlist create
 		$playlist = $api->createUserPlaylist($user->id, array(
     		'name' => $playlistName
-		));	
-
-		$tracks = $this->_tracks($artist->id);
-		$trackIds = [];
-
-		foreach ($tracks as $i => $t) {
-			$trackIds[] = $t->id;
-		}
+		));
 
 		$api->addUserPlaylistTracks($user->id, $playlist->id, $trackIds);
 
-		return Redirect::to('/artist/'.$artistId);
 	}
 
 }

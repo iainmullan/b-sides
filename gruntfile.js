@@ -43,7 +43,7 @@ module.exports = function(grunt) {
 
     uglify: {
         js: {
-            files: { 'deploy/public/js/bsides.min.js': 'deploy/public/js/lad.js' },
+            files: { 'deploy/public/js/bsides.min.js': 'deploy/public/js/bsides.js' },
             options: {
                 preserveComments: false
             }

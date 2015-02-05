@@ -102,21 +102,28 @@ table.playlist {
 	font-weight: 300;
 	border-collapse: separate;
 	border-spacing: 2px;
-}
 
-table.playlist th,
-table.playlist td {
-	padding: 5px 10px;
-}
-table.playlist td {
-	background: #efe;
-}
-table.playlist th {
-	text-align: left;
-	background: #ded;
-}
-table.playlist td.single {
-	font-style: italic;
+	th, td {
+		padding: 5px 10px;
+	}
+
+	td {
+		background: #efe;
+		&.single {
+			font-style: italic;
+		}
+	}
+
+	tr.unchecked td {
+		background: #eee;
+		color: #999;
+	}
+
+	th {
+		text-align: left;
+		background: #ded;
+	}
+
 }
 
 
