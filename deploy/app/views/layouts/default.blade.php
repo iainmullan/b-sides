@@ -21,6 +21,20 @@
 
 	<header>
 		<h1><a href="/">B-Sides</a></h1>
+        <div class="current-user">
+
+            @if (Auth::user())
+                <span class="username">{{ Auth::user()->spotify_display_name }}</span>
+                <span class="prof-pic" style="background-image: url({{ Auth::user()->spotify_profile_image }});">
+                </span>
+                <a href="/auth/logout">Logout</a>
+            @else
+                <a href="/auth/spotify">
+                    <img src="/img/log_in-desktop-medium.png" />
+                </a>
+            @endif
+
+        </div>
 		@if ($artistName)
 			@include('elements.search', array('value' => @$artistName))
 		@endif

@@ -9,9 +9,16 @@
 		<input type="hidden" name="artist_id" value="{{ $artist->id }}" />
 
 		<div class="header">
-			<h2>{{ $artist->name }}</h2>
+			<h2>
+                <span class="prof-pic" style="background-image: url({{ @array_pop($artist->images)->url }});"></span>
+
+				{{ $artist->name }}</h2>
 			<input class="export" type="image" src="/img/create-playlist-green.png" alt="Create Playlist" height="40px" />
 		</div>
+
+		<p class="tip">
+			Customise the track selection below, then click Create Playlist to save in Spotify
+		</p>
 
 		<table class="playlist">
 
@@ -42,6 +49,7 @@
 
 		</table>
 
+		<input class="export" type="image" src="/img/create-playlist-green.png" alt="Create Playlist" height="40px" />
 	</form>
 
 @endsection

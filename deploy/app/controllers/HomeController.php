@@ -17,9 +17,16 @@ class HomeController extends BaseController {
 		*/
 		$results = $api->search($artistName, 'artist');
 
-		$artist = $results->artists->items[0];
+		$artists = $results->artists->items;
 
-		return Redirect::to('/artist/'.$artist->id);
+		if (count($artists) > 1) {
+
+//			return Response::json($artists);
+
+			return View::make('artists.select', ['artists' => $artists]);
+		}
+
+		return Redirect::to('/artist/'.$artists[0]->id);
 	}
 
 }

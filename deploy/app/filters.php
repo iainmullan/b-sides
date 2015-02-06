@@ -15,6 +15,10 @@ App::before(function($request)
 {
 	//
 	View::share('artistName', false);
+
+	// var_dump(Auth::user());
+	// die();
+
 });
 
 

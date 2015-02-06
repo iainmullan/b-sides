@@ -3,6 +3,7 @@ class AuthController extends BaseController {
 
 	function logout() {
 		Session::flush();
+		return Redirect::to('/');
 	}
 
 	function spotify_login() {
@@ -46,13 +47,29 @@ class AuthController extends BaseController {
 
 		$me = $api->me();
 
-		Session::put('user_token', $accessToken);
-		Session::put('user', $me);
+		$user = User::firstOrCreate(['spotify_id' => $me->id]);
 
-		if ($artistId = Session::get('export_artist_id')) {
-			return Redirect::to('/artist/'.$artistId);
+		$img = '';
+		if (!empty($me->images)) {
+			$img = $me->images[0]->url;
 		}
 
+		$user->fill([
+			'spotify_display_name' => $me->display_name,
+			'spotify_profile_image' => $img,
+			'spotify_country' => $me->country,
+			'spotify_product' => $me->product,
+			'spotify_access_token' => $accessToken
+		]);
+		$user->save();
+
+		Auth::login($user);
+
+		if ($input = Session::get('input')) {
+			return Redirect::to('/playlists/export');
+		}
+
+		return Redirect::to('/');
 	}
 
 }

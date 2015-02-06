@@ -23,4 +23,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $hidden = array('password', 'remember_token');
 
+	var $fillable = [
+		'spotify_id',
+		'spotify_display_name',
+		'spotify_profile_image',
+		'spotify_country',
+		'spotify_product'
+	];
+
 }

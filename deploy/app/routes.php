@@ -15,6 +15,7 @@ Route::get('/', 'HomeController@home');
 
 Route::get('/playlists/export/{id}', 'PlaylistsController@export_artist');
 
+Route::get('/playlists/export', 'PlaylistsController@export_postlogin');
 Route::post('/playlists/export', 'PlaylistsController@export_tracks');
 
 Route::get('/artist/{id}', 'PlaylistsController@view');

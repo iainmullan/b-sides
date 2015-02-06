@@ -11,7 +11,7 @@ a, a:visited {
 	color: inherit;
 }
 header {
-	font-family:'Lato', sans-serif;	
+	font-family:'Lato', sans-serif;
 }
 h1 {
 	font-size: 60px;
@@ -41,8 +41,10 @@ header {
 #playlist .header * {
 	display: inline-block;
 }
-#playlist .header .export {
+
+.export {
 	float:right;
+	margin-top: 10px;
 }
 
 header, main, footer {
@@ -127,3 +129,44 @@ table.playlist {
 }
 
 
+.prof-pic {
+	vertical-align: middle;
+	display: inline-block;
+	width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-size: cover;
+    background-color: #ddd;
+    margin: 0 10px 0 0;
+}
+
+.current-user {
+	float:right;
+	margin-top: 20px;
+	span {
+		vertical-align: middle;
+	}
+
+	.username {
+		line-height: 40px;
+	}
+
+	.prof-pic {
+		margin: 0 20px 0 10px;
+	}
+
+}
+
+ul.artists {
+	li {
+		line-height: 40px;
+		vertical-align: middle;
+		margin: 5px 0;
+	}
+}
+
+
+p.tip {
+	color: #777;
+	margin-bottom: 20px;
+}

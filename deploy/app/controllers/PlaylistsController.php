@@ -1,6 +1,78 @@
 <?php
 class PlaylistsController extends BaseController {
 
+	function artists() {
+
+	}
+
+	function view($artistId = false) {
+
+		$api = new SpotifyWebAPI\SpotifyWebAPI();
+
+		$artist = $api->getArtist($artistId);
+
+
+		$tracks = $this->_tracks($artist->id);
+
+		return View::make('playlists.view', [
+			'artist' => $artist,
+			'artistName' => $artist->name,
+			'tracks' => $tracks
+		]);
+
+	}
+
+	function export_tracks() {
+
+		$input = Input::only('artist_id', 'track_id');
+
+		$token = Session::get('user_token');
+		if (!$token) {
+			Session::put('input', $input);
+			return Redirect::to('/auth/spotify');
+		}
+
+		$artistId = $input['artist_id'];
+		$trackIds = $input['track_id'];
+
+		$this->_create($artistId, $trackIds);
+
+		return Redirect::to('/artist/'.$artistId);
+	}
+
+	function export_postlogin() {
+
+		$input = Session::pull('input');
+
+		$artistId = $input['artist_id'];
+		$trackIds = $input['track_id'];
+
+		$this->_create($artistId, $trackIds);
+
+		return Redirect::to('/artist/'.$artistId);
+	}
+
+	function _create($artistId, $trackIds) {
+
+		$user = Auth::user();
+		$token = $user->spotify_access_token;
+
+		$api = new SpotifyWebAPI\SpotifyWebAPI();
+		$api->setAccessToken($token);
+
+		$artist = $api->getArtist($artistId);
+
+		$playlistName = "B-sides: ".$artist->name;
+
+		// do the playlist create
+		$playlist = $api->createUserPlaylist($user->spotify_id, array(
+    		'name' => $playlistName
+		));
+
+		$api->addUserPlaylistTracks($user->spotify_id, $playlist->id, $trackIds);
+
+	}
+
 	function _tracks($artistId, $idsOnly = false) {
 
 		$api = new SpotifyWebAPI\SpotifyWebAPI();
@@ -101,75 +173,6 @@ class PlaylistsController extends BaseController {
 		}
 
 		return $tracks;
-	}
-
-	function view($artistId = false) {
-
-		$api = new SpotifyWebAPI\SpotifyWebAPI();
-
-		$artist = $api->getArtist($artistId);
-		$tracks = $this->_tracks($artist->id);
-
-		return View::make('playlists.view', [
-			'artist' => $artist,
-			'artistName' => $artist->name,
-			'tracks' => $tracks
-		]);
-
-	}
-
-	function export_artist($artistId = false) {
-
-		$token = Session::get('user_token');
-
-		if (!$token) {
-			Session::put('export_artist_id', $artistId);
-			return Redirect::to('/auth/spotify');
-		}
-
-		$trackIds = $this->_tracks($artistId, true);
-
-		$this->_create($artistId, $trackIds);
-
-		return Redirect::to('/artist/'.$artistId);
-	}
-
-	function export_tracks() {
-
-		$artistId = Input::get('artist_id');
-		$trackIds = Input::get('track_id');
-
-		$token = Session::get('user_token');
-		if (!$token) {
-			Session::put('export_artist_id', $artistId);
-			return Redirect::to('/auth/spotify');
-		}
-
-		$this->_create($artistId, $trackIds);
-
-		return Redirect::to('/artist/'.$artistId);
-	}
-
-	function _create($artistId, $trackIds) {
-
-		$token = Session::get('user_token');
-
-		$user = Session::get('user');
-
-		$api = new SpotifyWebAPI\SpotifyWebAPI();
-		$api->setAccessToken($token);
-
-		$artist = $api->getArtist($artistId);
-
-		$playlistName = "B-sides: ".$artist->name;
-
-		// do the playlist create
-		$playlist = $api->createUserPlaylist($user->id, array(
-    		'name' => $playlistName
-		));
-
-		$api->addUserPlaylistTracks($user->id, $playlist->id, $trackIds);
-
 	}
 
 }
