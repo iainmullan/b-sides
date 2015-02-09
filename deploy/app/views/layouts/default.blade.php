@@ -21,23 +21,25 @@
 
 	<header>
 		<h1><a href="/">B-Sides</a></h1>
-        <div class="current-user">
 
-            @if (Auth::user())
-                <span class="username">{{ Auth::user()->spotify_display_name }}</span>
-                <span class="prof-pic" style="background-image: url({{ Auth::user()->spotify_profile_image }});">
-                </span>
-                <a href="/auth/logout">Logout</a>
-            @else
-                <a href="/auth/spotify">
-                    <img src="/img/log_in-desktop-medium.png" />
-                </a>
-            @endif
+        <div class="right">
+            <div class="current-user">
+                @if (Auth::user())
+                    <span class="username">{{ Auth::user()->spotify_display_name }}</span>
+                    <span class="prof-pic" style="background-image: url({{ Auth::user()->spotify_profile_image }});">
+                    </span>
+                    <a href="/auth/logout">Logout</a>
+                @else
+                    <a href="/auth/spotify">
+                        <img src="/img/log_in-desktop-small.png" />
+                    </a>
+                @endif
+            </div>
 
+    		@if ($artistName)
+    			@include('elements.search', array('value' => @$artistName))
+    		@endif
         </div>
-		@if ($artistName)
-			@include('elements.search', array('value' => @$artistName))
-		@endif
 	</header>
 
 	<main>
@@ -50,7 +52,7 @@
 		<br/>
 		<a class="twitter-follow-button"
           href="https://twitter.com/iainmullan"
-          data-size="small"
+          data-size="large"
           data-width="178"
           data-show-count="false"
           data-lang="en">Follow @iainmullan</a>

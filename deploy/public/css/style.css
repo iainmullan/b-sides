@@ -13,10 +13,11 @@ header {
 
 h1 {
   font-size: 60px;
-  margin: 10px 0 0 0;
+  margin: 0;
   font-weight: 400;
   letter-spacing: 0.04em;
-  display: inline-block; }
+  display: inline-block;
+  line-height: 75px; }
 
 h1 a {
   text-decoration: none; }
@@ -37,6 +38,8 @@ header {
 .export {
   float: right;
   margin-top: 10px; }
+  .header .export {
+    margin-top: 0; }
 
 header, main, footer {
   max-width: 960px;
@@ -53,10 +56,6 @@ p.tagline {
   text-align: center;
   margin: 30px 0; }
 
-header #search {
-  float: right;
-  margin-top: 35px; }
-
 #home #search {
   text-align: center; }
 
@@ -65,7 +64,8 @@ header #search {
   height: 20px;
   display: inline-block;
   vertical-align: top;
-  font-size: 16px; }
+  font-size: 16px;
+  border-radius: 20px; }
 
 #search input[type=text] {
   border: 1px solid #ccc;
@@ -75,7 +75,8 @@ header #search {
 #search input[type=submit] {
   border: none;
   background: #eee;
-  height: 32px; }
+  height: 32px;
+  border: none; }
 
 .twitter-follow-button {
   display: block;
@@ -110,15 +111,20 @@ table.playlist {
   background-color: #ddd;
   margin: 0 10px 0 0; }
 
-.current-user {
-  float: right;
-  margin-top: 20px; }
-  .current-user span {
-    vertical-align: middle; }
-  .current-user .username {
-    line-height: 40px; }
-  .current-user .prof-pic {
-    margin: 0 20px 0 10px; }
+.right {
+  float: right; }
+  .right .current-user {
+    float: right; }
+    .right .current-user span {
+      vertical-align: middle; }
+    .right .current-user .username {
+      line-height: 40px; }
+    .right .current-user .prof-pic {
+      margin: 0 20px 0 10px; }
+  .right #search {
+    margin-top: 10px;
+    clear: right;
+    float: right; }
 
 ul.artists li {
   line-height: 40px;

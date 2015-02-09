@@ -15,10 +15,11 @@ header {
 }
 h1 {
 	font-size: 60px;
-	margin: 10px 0 0 0;
+	margin: 0;
 	font-weight: 400;
 	letter-spacing: 0.04em;
 	display: inline-block;
+	line-height: 75px;
 }
 
 h1 a {
@@ -45,6 +46,10 @@ header {
 .export {
 	float:right;
 	margin-top: 10px;
+
+	.header & {
+		margin-top: 0;
+	}
 }
 
 header, main, footer {
@@ -65,10 +70,6 @@ p.tagline {
 	margin: 30px 0;
 }
 
-header #search {
-	float:right;
-	margin-top: 35px;
-}
 
 #home #search {
 	text-align: center;
@@ -80,6 +81,7 @@ header #search {
 	display: inline-block;
 	vertical-align: top;
 	font-size: 16px;
+	border-radius: 20px;
 }
 
 #search input[type=text] {
@@ -91,6 +93,7 @@ header #search {
 	border: none;
 	background: #eee;
 	height: 32px;
+	border: none;
 }
 
 .twitter-follow-button {
@@ -140,19 +143,30 @@ table.playlist {
     margin: 0 10px 0 0;
 }
 
-.current-user {
+.right {
+
 	float:right;
-	margin-top: 20px;
-	span {
-		vertical-align: middle;
+
+	.current-user {
+		float:right;
+		span {
+			vertical-align: middle;
+		}
+
+		.username {
+			line-height: 40px;
+		}
+
+		.prof-pic {
+			margin: 0 20px 0 10px;
+		}
+
 	}
 
-	.username {
-		line-height: 40px;
-	}
-
-	.prof-pic {
-		margin: 0 20px 0 10px;
+	#search {
+		margin-top: 10px;
+		clear:right;
+		float:right;
 	}
 
 }
