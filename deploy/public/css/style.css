@@ -134,3 +134,12 @@ ul.artists li {
 p.tip {
   color: #777;
   margin-bottom: 20px; }
+
+#popular {
+  margin: 80px;
+  text-align: center; }
+  #popular ul.playlists li {
+    display: inline-block;
+    margin: 10px;
+    padding: 10px 15px;
+    background: #eee; }

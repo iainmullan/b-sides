@@ -10,4 +10,22 @@ class Playlist extends Eloquent
         'track_ids'
     ];
 
+    function artist() {
+        return $this->belongsTo('Artist');
+    }
+
+    function user() {
+        return $this->belongsTo('User');
+    }
+
 }
+
+Playlist::saved(function($playlist) {
+    $playlist->artist->updatePlaylistCount();
+    $playlist->user->updatePlaylistCount();
+});
+
+Playlist::deleted(function($artist) {
+    $playlist->artist->updatePlaylistCount();
+    $playlist->user->updatePlaylistCount();
+});

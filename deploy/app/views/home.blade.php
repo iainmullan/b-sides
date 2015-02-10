@@ -8,6 +8,14 @@
 
 	@include('elements.search')
 
+    <div id="popular">
+        <ul class="playlists">
+            @foreach($popular as $p)
+                <li><a href="/artist/{{ $p->spotify_id }}/">{{ $p->name }}</a></li>
+            @endforeach
+        </ul>
+    </div>
+
 </div>
 
 @endsection

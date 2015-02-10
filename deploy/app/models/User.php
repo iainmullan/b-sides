@@ -24,6 +24,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'remember_token');
 
 	var $fillable = [
+		'playlist_count',
 		'spotify_id',
 		'spotify_display_name',
 		'spotify_profile_image',
@@ -31,5 +32,16 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'spotify_product',
 		'spotify_access_token'
 	];
+
+	public function playlists()
+	{
+		return $this->hasMany('Playlist');
+	}
+
+    function updatePlaylistCount()
+    {
+        $this->playlist_count = $this->playlists->count();
+        $this->save();
+    }
 
 }
