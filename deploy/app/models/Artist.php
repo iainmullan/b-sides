@@ -4,7 +4,8 @@ class Artist extends Eloquent
 
     var $fillable = [
         'spotify_id',
-        'name'
+        'name',
+        'default_tracks'
     ];
 
 }

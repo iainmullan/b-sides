@@ -1,18 +1,24 @@
 <?php
 class PlaylistsController extends BaseController {
 
-	function artists() {
-
-	}
-
 	function view($artistId = false) {
 
 		$api = new SpotifyWebAPI\SpotifyWebAPI();
 
 		$artist = $api->getArtist($artistId);
 
+		$localArtist = Artist::where('spotify_id', $artistId)->first();
 
-		$tracks = $this->_tracks($artist->id);
+		if ($localArtist) {
+			$tracks = json_decode($localArtist->default_tracks);
+		} else {
+			$tracks = $this->_tracks($artist->id);
+			$localArtist = Artist::create([
+				'spotify_id' => $artistId,
+				'name' => $artist->name,
+				'default_tracks' => json_encode($tracks)
+			]);
+		}
 
 		return View::make('playlists.view', [
 			'artist' => $artist,
@@ -65,24 +71,51 @@ class PlaylistsController extends BaseController {
 		$playlistName = "B-sides: ".$artist->name;
 
 		// do the playlist create
-		$playlist = $api->createUserPlaylist($user->spotify_id, array(
+		$spotifyPlaylist = $api->createUserPlaylist($user->spotify_id, array(
     		'name' => $playlistName
 		));
 
-		$api->addUserPlaylistTracks($user->spotify_id, $playlist->id, $trackIds);
+		$api->addUserPlaylistTracks($user->spotify_id, $spotifyPlaylist->id, $trackIds);
+
+		$localArtist = Artist::where('spotify_id', $artistId)->first();
+		$localPlaylist = Playlist::where('user_id', $user->id)->where('artist_id', $localArtist->id)->first();
+
+		if (!$localPlaylist) {
+			$localPlaylist = Playlist::create([
+				'name' => $playlistName,
+				'track_ids' => json_encode($trackIds),
+				'spotify_id' => $spotifyPlaylist->id,
+				'user_id' => $user->id,
+				'artist_id' => $localArtist->id
+			]);
+		}
 
 	}
 
 	function _tracks($artistId, $idsOnly = false) {
 
+		$tracks = $this->_remoteTracks($artistId);
+
+		if ($idsOnly) {
+			$trackIds = [];
+
+			foreach ($tracks as $i => $t) {
+				$trackIds[] = $t->id;
+			}
+
+			return $trackIds;
+		}
+
+		return $tracks;
+	}
+
+	function _remoteTracks($artistId) {
+
 		$api = new SpotifyWebAPI\SpotifyWebAPI();
 
 		/*
-
 		GET https://api.spotify.com/v1/artists/{$artistId}/albums?album_type=single
-
 		*/
-
 		$next = true;
 		$singles = [];
 		$limit = 50;
@@ -95,8 +128,6 @@ class PlaylistsController extends BaseController {
 				'limit' => $limit,
 				'offset' => $offset
 			]);
-
-			Log::debug('Total of '.$singlesPage->total);
 
 			$singles = array_merge($singles, $singlesPage->items);
 
@@ -119,7 +150,6 @@ class PlaylistsController extends BaseController {
 			$ids = [];
 			foreach($c as $s) {
 				$ids[] = $s->id;
-				Log::debug($s->id.' = '.$s->name);
 			}
 
 			$response = $api->getAlbums($ids);
@@ -128,12 +158,10 @@ class PlaylistsController extends BaseController {
 		}
 
 		/*
+		Loop the albums, filter unique tracks
+
 		TODO
-
-		Loop the albums, remove Track 1
-
 		Bonus:: Detect a AA-side!
-
 		*/
 		$tracks = [];
 
@@ -160,16 +188,6 @@ class PlaylistsController extends BaseController {
 
 			}
 
-		}
-
-		if ($idsOnly) {
-			$trackIds = [];
-
-			foreach ($tracks as $i => $t) {
-				$trackIds[] = $t->id;
-			}
-
-			return $trackIds;
 		}
 
 		return $tracks;
