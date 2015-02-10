@@ -42,6 +42,6 @@ return array(
 			'schema'   => 'public',
 		),
 
-	),
+	)
 
 );
