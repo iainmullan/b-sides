@@ -23,7 +23,7 @@ class HomeController extends BaseController {
 			}
 		}
 
-		$popular = Artist::orderBy('playlist_count', 'DESC')->limit(5)->get();
+		$popular = Artist::orderBy('playlist_count', 'DESC')->limit(20)->get();
 
 		return View::make('home', [
 			'popular' => $popular
