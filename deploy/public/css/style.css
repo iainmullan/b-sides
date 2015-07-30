@@ -27,7 +27,10 @@ h2 {
   line-height: 40px; }
 
 header {
-  border-bottom: 1px solid #eee; }
+  border-bottom: 1px solid #ddd; }
+
+footer {
+  border-top: 1px solid #ddd; }
 
 #playlist .header {
   padding: 20px 0; }
