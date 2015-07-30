@@ -29,9 +29,6 @@ h2 {
 header {
   border-bottom: 1px solid #ddd; }
 
-footer {
-  border-top: 1px solid #ddd; }
-
 #playlist .header {
   padding: 20px 0; }
 
@@ -53,7 +50,8 @@ header, main, footer {
   text-align: center; }
 
 footer {
-  margin-top: 100px; }
+  border-top: 1px solid #ddd;
+  margin-top: 60px; }
   footer .follow {
     margin-top: 20px; }
     footer .follow iframe {
@@ -144,7 +142,7 @@ p.tip {
   margin-bottom: 20px; }
 
 #popular {
-  margin: 80px;
+  margin: 40px 80px;
   text-align: center; }
   #popular ul.playlists li {
     display: inline-block;
