@@ -19,6 +19,7 @@ Route::get('/playlists/export', 'PlaylistsController@export_postlogin');
 Route::post('/playlists/export', 'PlaylistsController@export_tracks');
 
 Route::get('/artist/{id}', 'PlaylistsController@view');
+Route::get('/track/{id}', 'TracksController@view');
 
 Route::get('/auth/logout', 'AuthController@logout');
 Route::get('/auth/spotify', 'AuthController@spotify_login');
