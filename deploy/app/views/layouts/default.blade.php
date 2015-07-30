@@ -50,12 +50,23 @@
 		by <a href="http://iainmullan.com">Iain Mullan</a>
 		with the help of <a href="https://developer.spotify.com/" target="_blank">the Spotify API</a>
 		<br/>
-		<a class="twitter-follow-button"
-          href="https://twitter.com/iainmullan"
-          data-size="large"
-          data-width="178"
-          data-show-count="false"
-          data-lang="en">Follow @iainmullan</a>
+        <div class="follow">
+
+            <a class="twitter-follow-button"
+              href="https://twitter.com/bsid_es"
+              data-size="large"
+              data-width="178"
+              data-show-count="false"
+              data-lang="en">Follow @bsid_es</a>
+
+            <a class="twitter-follow-button"
+              href="https://twitter.com/iainmullan"
+              data-size="large"
+              data-width="178"
+              data-show-count="false"
+              data-lang="en">Follow @iainmullan</a>
+
+        </div>
 
 	</footer>
 

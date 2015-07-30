@@ -63,6 +63,14 @@ header, main, footer {
 }
 footer {
 	margin-top: 100px;
+
+	.follow {
+		margin-top:20px;
+		iframe {
+			display: inline-block;
+			margin: 10px;
+		}
+	}
 }
 
 p.tagline {

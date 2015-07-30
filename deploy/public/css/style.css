@@ -51,6 +51,11 @@ header, main, footer {
 
 footer {
   margin-top: 100px; }
+  footer .follow {
+    margin-top: 20px; }
+    footer .follow iframe {
+      display: inline-block;
+      margin: 10px; }
 
 p.tagline {
   text-align: center;
