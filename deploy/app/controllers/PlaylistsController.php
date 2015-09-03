@@ -9,16 +9,14 @@ class PlaylistsController extends BaseController {
 
 		$localArtist = Artist::where('spotify_id', $artistId)->first();
 
-		if ($localArtist) {
-			$tracks = json_decode($localArtist->default_tracks);
-		} else {
-			$tracks = $this->_tracks($artist->id);
+		if (!$localArtist) {
 			$localArtist = Artist::create([
 				'spotify_id' => $artistId,
-				'name' => $artist->name,
-				'default_tracks' => json_encode($tracks)
+				'name' => $artist->name
 			]);
 		}
+
+		$tracks = $this->_tracks($artist);
 
 		return View::make('playlists.view', [
 			'artist' => $artist,
@@ -109,9 +107,17 @@ class PlaylistsController extends BaseController {
 		return $tracks;
 	}
 
-	function _remoteTracks($artistId) {
+	function _remoteTracks($artist) {
+
+		$artistId = $artist->id;
+
+		if ($tracks = Cache::get($artistId)) {
+			Log::debug("Reading ".$artist->name." from the cache");
+			return json_decode($tracks);
+		}
 
 		$api = new SpotifyWebAPI\SpotifyWebAPI();
+
 
 		/*
 		GET https://api.spotify.com/v1/artists/{$artistId}/albums?album_type=single
@@ -189,6 +195,9 @@ class PlaylistsController extends BaseController {
 			}
 
 		}
+
+		Log::debug("Writing ".$artist->name." to the cache");
+		Cache::put($artistId, json_encode($tracks), 24 * 60);
 
 		return $tracks;
 	}
