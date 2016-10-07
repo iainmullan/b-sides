@@ -19,7 +19,7 @@
 		</div>
 
 		@if($existingPlaylist)
-			<p><a href="https://open.spotify.com/user/{{ $existingPlaylist->user->spotify_id }}/playlist/{{ $existingPlaylist->spotify_id }}">Open this playlist</a></p>
+			<p><a target="_blank" href="https://open.spotify.com/user/{{ $existingPlaylist->user->spotify_id }}/playlist/{{ $existingPlaylist->spotify_id }}">Open this playlist</a></p>
 		@else
 			<p class="tip">
 				Customise the track selection below, then click Create Playlist to save in Spotify
