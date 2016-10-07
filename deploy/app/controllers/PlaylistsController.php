@@ -18,9 +18,17 @@ class PlaylistsController extends BaseController {
 
 		$tracks = $this->_tracks($artist);
 
+		$existingPlaylist = false;
+		if (Auth::user()) {
+			$existingPlaylist = Playlist::where('user_id', Auth::user()->id)
+				->where('artist_id', $localArtist->id)
+				->first();
+		}
+
 		return View::make('playlists.view', [
 			'artist' => $artist,
 			'artistName' => $artist->name,
+			'existingPlaylist' => $existingPlaylist,
 			'tracks' => $tracks
 		]);
 

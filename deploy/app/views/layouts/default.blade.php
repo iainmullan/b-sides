@@ -47,7 +47,7 @@
 	</main>
 
 	<footer>
-		by <a href="http://iainmullan.com">Iain Mullan</a>
+		Made in London by <a href="http://iainmullan.com">Iain Mullan</a>
 		with the help of <a href="https://developer.spotify.com/" target="_blank">the Spotify API</a>
 		<br/>
         <div class="follow">

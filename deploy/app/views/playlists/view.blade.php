@@ -11,14 +11,20 @@
 		<div class="header">
 			<h2>
                 <span class="prof-pic" style="background-image: url({{ @array_pop($artist->images)->url }});"></span>
-
 				{{ $artist->name }}</h2>
-			<input class="export" type="image" src="/img/create-playlist-green.png" alt="Create Playlist" height="40px" />
+
+			@if(!$existingPlaylist)
+				<input class="export" type="image" src="/img/create-playlist-green.png" alt="Create Playlist" height="40px" />
+			@endif
 		</div>
 
-		<p class="tip">
-			Customise the track selection below, then click Create Playlist to save in Spotify
-		</p>
+		@if($existingPlaylist)
+			<p><a href="https://open.spotify.com/user/{{ $existingPlaylist->user->spotify_id }}/playlist/{{ $existingPlaylist->spotify_id }}">Open this playlist</a></p>
+		@else
+			<p class="tip">
+				Customise the track selection below, then click Create Playlist to save in Spotify
+			</p>
+		@endif
 
 		<table class="playlist">
 
@@ -49,7 +55,9 @@
 
 		</table>
 
-		<input class="export" type="image" src="/img/create-playlist-green.png" alt="Create Playlist" height="40px" />
+		@if(!$existingPlaylist)
+			<input class="export" type="image" src="/img/create-playlist-green.png" alt="Create Playlist" height="40px" />
+		@endif
 	</form>
 
 @endsection
