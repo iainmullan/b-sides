@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-    'local' => array('gabriela', 'ailidh.dev', 'packer-virtualbox-iso-1422601639'),
+    'local' => array('vagrant'),
     'production' => array('ailidh'),
 
 ));

@@ -1,0 +1,92 @@
+---
+- hosts: all
+
+  vars:
+    user: vagrant
+    component: bsides
+    www_dir: /var/www/{{ component }}
+    domains:
+     - bsides.loc
+
+  tasks:
+
+  - name: install git / nginx / curl
+    apt: name={{ item }} update_cache=yes state=latest
+    become: yes
+    become_user: root
+    with_items:
+      - git
+      - nginx
+      - curl
+
+  - name: install php7 libraries
+    apt: name={{ item }} state=latest
+    become: yes
+    become_user: root
+    with_items:
+      - php7.0
+      - php7.0-fpm
+      - php7.0-mysql
+      - php7.0-mbstring
+      - php7.0-dom
+      - php7.0-gd
+      - php7.0-curl
+      - php7.0-mcrypt
+      - php7.0-zip
+      - mysql-client
+
+  - name: install local mysql server
+    apt: name={{ item }} state=latest
+    become: yes
+    become_user: root
+    with_items:
+      - mysql-server
+      - python-mysqldb
+
+
+  - name: Create MySQL DB
+    mysql_db: name={{ component }} state=present login_user=root login_password=""
+    become: yes
+    become_user: root
+
+  - name: Create MySQL User
+    mysql_user: name={{ component }} password={{ component }} priv={{ component }}.*:ALL state=present login_user=root login_password=""
+    become: yes
+    become_user: root
+
+  - name: add {{ user }} user to www-data group
+    become: yes
+    become_user: root
+    user: name={{ user }} groups=www-data append=yes
+
+  - name: create /var/www/ directory
+    become: yes
+    become_user: root
+    file: dest=/var/www/ state=directory owner={{ user }} group=www-data mode=0775
+
+  - name: disable default nginx config
+    file: dest="/etc/nginx/sites-enabled/default" state=absent
+    become: yes
+    become_user: root
+
+  - name: remove default nginx config
+    file: dest="/etc/nginx/sites-available/default" state=absent
+    become: yes
+    become_user: root
+
+  - name: configure nginx config
+    template: src="files/nginx/{{ component }}.conf" dest="/etc/nginx/sites-available/{{ component }}.conf"
+    with_items: "{{ domains }}"
+    become: yes
+    become_user: root
+
+  - name: enable site
+    file: src="/etc/nginx/sites-available/{{ component }}.conf" dest="/etc/nginx/sites-enabled/{{ component }}.conf" state=link
+    become: yes
+    become_user: root
+
+  - name: restart nginx
+    become: yes
+    become_user: root
+    service: name=nginx state=restarted
+
