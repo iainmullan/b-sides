@@ -5,6 +5,15 @@ class PlaylistsController extends BaseController {
 
 		$api = new SpotifyWebAPI\SpotifyWebAPI();
 
+		if ($user = Auth::user())
+		{
+			$token = $user->spotify_access_token;
+		} else {
+			$token = User::find(1)->spotify_access_token;
+		}
+
+		$api->setAccessToken($token);
+
 		$artist = $api->getArtist($artistId);
 
 		$localArtist = Artist::where('spotify_id', $artistId)->first();

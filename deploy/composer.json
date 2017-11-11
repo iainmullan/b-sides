@@ -6,7 +6,7 @@
 	"type": "project",
 	"require": {
 		"laravel/framework": "4.2.*",
-		"jwilsson/spotify-web-api-php": "0.7.*"
+		"jwilsson/spotify-web-api-php": "^2.0"
 	},
 	"autoload": {
 		"classmap": [
