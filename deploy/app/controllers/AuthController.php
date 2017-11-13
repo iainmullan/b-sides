@@ -39,7 +39,7 @@ class AuthController extends BaseController {
 		$api = new SpotifyWebAPI\SpotifyWebAPI();
 
 		// Request a access token using the code from Spotify
-		$session->requestToken($_GET['code']);
+		$session->requestAccessToken($_GET['code']);
 		$accessToken = $session->getAccessToken();
 
 		// Set the access token on the API wrapper
