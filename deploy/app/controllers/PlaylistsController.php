@@ -3,16 +3,7 @@ class PlaylistsController extends BaseController {
 
 	function view($artistId = false) {
 
-		$api = new SpotifyWebAPI\SpotifyWebAPI();
-
-		if ($user = Auth::user())
-		{
-			$token = $user->spotify_access_token;
-		} else {
-			$token = User::find(1)->spotify_access_token;
-		}
-
-		$api->setAccessToken($token);
+		$api = $this->_api();
 
 		$artist = $api->getArtist($artistId);
 
@@ -78,8 +69,7 @@ class PlaylistsController extends BaseController {
 		$user = Auth::user();
 		$token = $user->spotify_access_token;
 
-		$api = new SpotifyWebAPI\SpotifyWebAPI();
-		$api->setAccessToken($token);
+		$api = $this->_api();
 
 		$artist = $api->getArtist($artistId);
 
@@ -133,7 +123,7 @@ class PlaylistsController extends BaseController {
 			return json_decode($tracks);
 		}
 
-		$api = new SpotifyWebAPI\SpotifyWebAPI();
+		$api = $this->_api();
 
 
 		/*

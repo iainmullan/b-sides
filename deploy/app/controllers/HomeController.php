@@ -4,7 +4,7 @@ class HomeController extends BaseController {
 
 	public function home() {
 
-		$api = new SpotifyWebAPI\SpotifyWebAPI();
+		$api = $this->_api();
 
 		$artistName = Input::get('artist', false);
 

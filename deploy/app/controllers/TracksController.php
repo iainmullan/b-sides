@@ -3,7 +3,7 @@ class TracksController extends BaseController {
 
     function view($trackId = false) {
 
-        $api = new SpotifyWebAPI\SpotifyWebAPI();
+        $api = $this->_api();
 
         $track = $api->getTrack($trackId);
 
