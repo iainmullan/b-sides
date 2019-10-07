@@ -8,11 +8,7 @@ class AuthController extends BaseController {
 
 	function spotify_login() {
 
-		$session = new SpotifyWebAPI\Session(
-			Config::get('bsides.spotify.client_id'),
-			Config::get('bsides.spotify.client_secret'),
-			url('/auth/spotify/callback')
-		);
+		$session = $this->_session();
 
 		$scopes = array(
 		    'user-read-private',
@@ -30,11 +26,7 @@ class AuthController extends BaseController {
 
 	function spotify_callback() {
 
-		$session = new SpotifyWebAPI\Session(
-			Config::get('bsides.spotify.client_id'),
-			Config::get('bsides.spotify.client_secret'),
-			url('/auth/spotify/callback')
-		);
+		$session = $this->_session();
 
 		$api = new SpotifyWebAPI\SpotifyWebAPI();
 
@@ -59,7 +51,9 @@ class AuthController extends BaseController {
 			'spotify_profile_image' => $img,
 			'spotify_country' => $me->country,
 			'spotify_product' => $me->product,
-			'spotify_access_token' => $accessToken
+			'spotify_access_token' => $accessToken,
+			'spotify_access_token_expires' => date('Y-m-d H:i:s', $session->getTokenExpiration()),
+			'spotify_refresh_token' => $session->getRefreshToken(),
 		]);
 		$user->save();
 

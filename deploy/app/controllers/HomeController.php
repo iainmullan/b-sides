@@ -4,11 +4,13 @@ class HomeController extends BaseController {
 
 	public function home() {
 
-		$api = $this->_api();
 
 		$artistName = Input::get('artist', false);
 
 		if ($artistName) {
+
+			$api = $this->_api();
+
 			/*
 			GET https://api.spotify.com/v1/search?type=artist&q={$artistName}
 			*/
