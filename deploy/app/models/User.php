@@ -30,7 +30,9 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		'spotify_profile_image',
 		'spotify_country',
 		'spotify_product',
-		'spotify_access_token'
+		'spotify_access_token',
+		'spotify_access_token_expires',
+		'spotify_refresh_token'
 	];
 
 	public function playlists()
