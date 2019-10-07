@@ -14,11 +14,11 @@ class RefreshTokens extends Migration {
     {
 
         Schema::table('users', function($table) {
-            $table->text('spotify_access_token_expires')->after('spotify_access_token')->nullable();
+            $table->datetime('spotify_access_token_expires')->after('spotify_access_token')->nullable();
         });
 
         Schema::table('users', function($table) {
-            $table->datetime('spotify_refresh_token')->after('spotify_access_token_expires')->nullable();
+            $table->text('spotify_refresh_token')->after('spotify_access_token_expires')->nullable();
         });
 
     }
