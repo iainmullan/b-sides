@@ -1,6 +1,5 @@
-# B-sides
+# B-Sides
 
-Uses the Spotify Web API to create a playlist of just an artist's B-sides.
+Uses the Spotify Web API to create a playlist of just an artist's B-Sides.
 
-http://bsid.es
-
+https://bsides.brokenbricks.org
