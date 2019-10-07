@@ -45,8 +45,9 @@ class BaseController extends Controller {
 			$session->refreshAccessToken($user->spotify_refresh_token);
 
 			$user->spotify_access_token = $session->getAccessToken();
-			$user->spotify_access_token_expires => date('Y-m-d H:i:s', $session->getTokenExpiration());
-			$user->spotify_refresh_token => $session->getRefreshToken();
+			$user->spotify_access_token_expires = date('Y-m-d H:i:s', $session->getTokenExpiration());
+			$user->spotify_refresh_token = $session->getRefreshToken();
+
 			$user->save();
 		}
 
