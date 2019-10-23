@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.2.*",
+		"laravel/framework": "6.4.*",
 		"jwilsson/spotify-web-api-php": "^2.0"
 	},
 	"autoload": {
